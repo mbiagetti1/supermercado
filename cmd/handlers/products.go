@@ -4,7 +4,9 @@ import (
 	"errors"
 	"example/pkg/response"
 	"example/services"
+	"example/services/models"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -12,7 +14,6 @@ import (
 
 func Get(ctx *gin.Context) {
 	// request
-
 	// process
 	products := services.Get()
 
@@ -28,6 +29,28 @@ type request struct {
 	Is_published bool    `json:"is_published"`
 	Expiration   string  `json:"expiration" validate:"required"`
 	Price        float64 `json:"price" validate:"required"`
+}
+
+func ProductByID(ctx *gin.Context) {
+	// request
+	q, ok := ctx.GetQuery("id")
+
+	// process
+	var p models.Product
+	if !ok {
+		ctx.JSON(http.StatusRequestedRangeNotSatisfiable, response.Err(errors.New("ID not specified")))
+		return
+	}
+	qint, _ := strconv.Atoi(q)
+	exists := services.ExistsProductId(qint)
+	if !exists {
+		ctx.JSON(http.StatusInternalServerError, response.Err(errors.New("ID specified does not match any product")))
+		return
+	}
+	p = services.GetById(qint)
+	// response
+	ctx.JSON(200, p)
+
 }
 
 func Pong(ctx *gin.Context) {

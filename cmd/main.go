@@ -33,16 +33,13 @@ func main() {
 	}
 	fmt.Println("Datos cargados correctamente")
 	defer jsonFile.Close()
-	// read our opened xmlFile as a byte array.
+	// Leer el archivo como un array de bytes
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 
-	// we unmarshal our byteArray which contains our
-	// jsonFile's content into 'users' which we defined above
+	// Umarshall del byte array
 	json.Unmarshal(byteValue, &services.Products)
 
-	// we iterate through every user within our users array and
-	// print out the user Type, their name, and their facebook url
-	// as just an example
+	// Imprimimos lo que tenemos en el slice cargado en memoria
 	for i := 0; i < len(services.Products); i++ {
 		fmt.Println("Product id: " + strconv.Itoa(services.Products[i].Id))
 		fmt.Println("Product name: " + services.Products[i].Name)
@@ -64,6 +61,7 @@ func main() {
 	products.GET("", handlers.Get)
 	products.POST("", handlers.Create)
 	products.GET("/ping", handlers.Pong)
+	products.GET("/:id", handlers.ProductByID)
 
 	// start
 	if err := sv.Run(":8080"); err != nil {

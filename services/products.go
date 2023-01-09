@@ -17,6 +17,18 @@ var LastID int
 func Get() []models.Product {
 	return Products
 }
+
+func GetById(id int) models.Product {
+	var product models.Product
+	for _, p := range Products {
+		if p.Id == id {
+			product = p
+			break
+		}
+	}
+	return product
+}
+
 func ExistsProductId(id int) bool {
 	for _, p := range Products {
 		if p.Id == id {
