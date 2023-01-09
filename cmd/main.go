@@ -62,6 +62,7 @@ func main() {
 	products.POST("", handlers.Create)
 	products.GET("/ping", handlers.Pong)
 	products.GET("/:id", handlers.ProductByID)
+	products.GET("/search", handlers.ProductsPriceGt)
 
 	// start
 	if err := sv.Run(":8080"); err != nil {

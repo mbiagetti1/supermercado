@@ -5,6 +5,7 @@ import (
 	"example/pkg/response"
 	"example/services"
 	"example/services/models"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -31,9 +32,34 @@ type request struct {
 	Price        float64 `json:"price" validate:"required"`
 }
 
+func ProductsPriceGt(ctx *gin.Context) {
+	//request
+	price, ok := ctx.GetQuery("priceGt")
+	if !ok {
+		Get(ctx)
+		return
+	}
+	priceFloat, _ := strconv.ParseFloat(price, 64)
+	productsPriceGt := services.GetPriceGt(priceFloat)
+	if len(productsPriceGt) == 0 {
+		message := fmt.Sprintf("No se econtraron productos con precio mayor a %f", priceFloat)
+		ctx.JSON(200, response.Response{
+			Message: message,
+			Data:    nil,
+		})
+		return
+	}
+	message := fmt.Sprintf("Se encontraron %d productos.", len(productsPriceGt))
+	ctx.JSON(200, response.Response{
+		Message: message,
+		Data:    productsPriceGt,
+	})
+
+}
+
 func ProductByID(ctx *gin.Context) {
 	// request
-	q, ok := ctx.GetQuery("id")
+	id, ok := ctx.GetQuery("id")
 
 	// process
 	var p models.Product
@@ -41,15 +67,23 @@ func ProductByID(ctx *gin.Context) {
 		ctx.JSON(http.StatusRequestedRangeNotSatisfiable, response.Err(errors.New("ID not specified")))
 		return
 	}
-	qint, _ := strconv.Atoi(q)
-	exists := services.ExistsProductId(qint)
+	idint, _ := strconv.Atoi(id)
+	exists := services.ExistsProductId(idint)
 	if !exists {
-		ctx.JSON(http.StatusInternalServerError, response.Err(errors.New("ID specified does not match any product")))
+		message := fmt.Sprintf("No se econtraron productos con el id %d", idint)
+		ctx.JSON(200, response.Response{
+			Message: message,
+			Data:    nil,
+		})
 		return
 	}
-	p = services.GetById(qint)
+	p = services.GetById(idint)
 	// response
-	ctx.JSON(200, p)
+	message := fmt.Sprintf("Se encontro el siguente elemento con id %d", idint)
+	ctx.JSON(200, response.Response{
+		Message: message,
+		Data:    p,
+	})
 
 }
 
