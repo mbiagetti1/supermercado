@@ -29,6 +29,15 @@ func GetById(id int) models.Product {
 	return product
 }
 
+func GetPriceGt(price float64) (result []models.Product) {
+	for _, p := range Get() {
+		if p.Price > price {
+			result = append(result, p)
+		}
+	}
+	return
+}
+
 func ExistsProductId(id int) bool {
 	for _, p := range Products {
 		if p.Id == id {
