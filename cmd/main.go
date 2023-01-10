@@ -50,8 +50,8 @@ func main() {
 	}
 
 	fmt.Println(services.Products)
-	services.LastID = getMaxId()
-	fmt.Printf("%d", services.LastID)
+	services.NextID = getMaxId() + 1
+	fmt.Printf("%d", services.NextID)
 
 	// server
 	sv := gin.Default()

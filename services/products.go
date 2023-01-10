@@ -11,7 +11,7 @@ var (
 )
 
 var Products []models.Product
-var LastID int
+var NextID int
 
 // read
 func Get() []models.Product {
@@ -65,9 +65,8 @@ func Create(id int, name string, quantity int, code_value string, is_published b
 		return models.Product{}, fmt.Errorf("%w. %s", ErrAlreadyExist, "product name not unique")
 	}
 
-	LastID++
 	product := models.Product{
-		Id:           LastID,
+		Id:           NextID,
 		Name:         name,
 		Quantity:     quantity,
 		Code_value:   code_value,
@@ -77,5 +76,6 @@ func Create(id int, name string, quantity int, code_value string, is_published b
 	}
 
 	Products = append(Products, product)
+	NextID++
 	return product, nil
 }
