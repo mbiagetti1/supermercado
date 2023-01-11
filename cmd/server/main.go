@@ -1,16 +1,15 @@
 package main
 
 import (
-	"github.com/bootcamp-go/Consignas-Go-Web.git/cmd/server/handler"
-	"github.com/bootcamp-go/Consignas-Go-Web.git/internal/product"
-	"github.com/bootcamp-go/Consignas-Go-Web.git/pkg/store"
+	"supermercado/cmd/server/handler"
+	"supermercado/internal/product"
+	"supermercado/pkg/store"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
 func main() {
-
-	if err := godotenv.Load("./cmd/server/.env"); err != nil {
+	if err := godotenv.Load(".env"); err != nil {
 		panic("Error loading .env file: " + err.Error())
 	}
 

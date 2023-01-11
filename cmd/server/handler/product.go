@@ -6,9 +6,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/bootcamp-go/Consignas-Go-Web.git/internal/domain"
-	"github.com/bootcamp-go/Consignas-Go-Web.git/internal/product"
-	"github.com/bootcamp-go/Consignas-Go-Web.git/pkg/web"
+	"supermercado/internal/domain"
+	"supermercado/internal/product"
+	"supermercado/pkg/web"
 	"github.com/gin-gonic/gin"
 )
 
