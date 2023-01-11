@@ -3,7 +3,7 @@ package product
 import (
 	"errors"
 
-	"github.com/bootcamp-go/Consignas-Go-Web.git/internal/domain"
+	"supermercado/internal/domain"
 )
 
 type Service interface {

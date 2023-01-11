@@ -1,4 +1,4 @@
-module github.com/bootcamp-go/Consignas-Go-Web.git
+module supermercado
 
 go 1.17
 

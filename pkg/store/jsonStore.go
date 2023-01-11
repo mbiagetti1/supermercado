@@ -5,7 +5,7 @@ import (
 	"errors"
 	"os"
 
-	"github.com/bootcamp-go/Consignas-Go-Web.git/internal/domain"
+	"supermercado/internal/domain"
 )
 
 type Store interface {

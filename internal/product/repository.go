@@ -3,8 +3,8 @@ package product
 import (
 	"errors"
 
-	"github.com/bootcamp-go/Consignas-Go-Web.git/internal/domain"
-	"github.com/bootcamp-go/Consignas-Go-Web.git/pkg/store"
+	"supermercado/internal/domain"
+	"supermercado/pkg/store"
 )
 
 type Repository interface {

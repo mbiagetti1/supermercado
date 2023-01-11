@@ -4,6 +4,7 @@ import (
 	"supermercado/cmd/server/handler"
 	"supermercado/internal/product"
 	"supermercado/pkg/store"
+
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -13,7 +14,7 @@ func main() {
 		panic("Error loading .env file: " + err.Error())
 	}
 
-	storage := store.NewStore("./products.json")
+	storage := store.NewStore("products.json")
 
 	repo := product.NewRepository(storage)
 	service := product.NewService(repo)
