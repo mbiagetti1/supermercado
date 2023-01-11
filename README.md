@@ -1,2 +1,1 @@
-# supermercado
-Repositorio de practica de GoWeb.
+# Consignas-Go-Web
