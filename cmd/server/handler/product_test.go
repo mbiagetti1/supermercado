@@ -8,10 +8,11 @@ import (
 	"os"
 	"testing"
 
-	"github.com/bootcamp-go/Consignas-Go-Web.git/cmd/server/handler"
-	"github.com/bootcamp-go/Consignas-Go-Web.git/internal/domain"
-	"github.com/bootcamp-go/Consignas-Go-Web.git/internal/product"
-	"github.com/bootcamp-go/Consignas-Go-Web.git/pkg/store"
+	"supermercado/cmd/server/handler"
+	"supermercado/internal/domain"
+	"supermercado/internal/product"
+	"supermercado/pkg/store"
+
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )
@@ -29,7 +30,7 @@ func createServer(token string) *gin.Engine {
 		}
 	}
 
-	db := store.NewStore("./products_copy.json")
+	db := store.NewStore("products_copy.json")
 	repo := product.NewRepository(db)
 	service := product.NewService(repo)
 	productHandler := handler.NewProductHandler(service)
@@ -89,7 +90,7 @@ func Test_GetAll_OK(t *testing.T) {
 	r := createServer("my-secret-token")
 	req, rr := createRequestTest(http.MethodGet, "/products", "", "my-secret-token")
 
-	p, err := loadProducts("./products_copy.json")
+	p, err := loadProducts("products_copy.json")
 	if err != nil {
 		panic(err)
 	}
@@ -148,12 +149,12 @@ func Test_Post_OK(t *testing.T) {
 	r := createServer("my-secret-token")
 	req, rr := createRequestTest(http.MethodPost, "/products", string(product), "my-secret-token")
 
-	p, _ := loadProducts("./products_copy.json")
+	p, _ := loadProducts("products_copy.json")
 
 	r.ServeHTTP(rr, req)
 	actual := map[string]domain.Product{}
 	_ = json.Unmarshal(rr.Body.Bytes(), &actual)
-	_ = writeProducts("./products_copy.json", p)
+	_ = writeProducts("products_copy.json", p)
 
 	assert.Equal(t, 201, rr.Code)
 	assert.Equal(t, expectd.Data, actual["data"])
@@ -165,14 +166,14 @@ func Test_Delete_OK(t *testing.T) {
 	r := createServer("my-secret-token")
 	req, rr := createRequestTest(http.MethodDelete, "/products/1", "", "my-secret-token")
 
-	p, err := loadProducts("./products_copy.json")
+	p, err := loadProducts("products_copy.json")
 	if err != nil {
 		panic(err)
 	}
 
 	r.ServeHTTP(rr, req)
 
-	err = writeProducts("./products_copy.json", p)
+	err = writeProducts("products_copy.json", p)
 	if err != nil {
 		panic(err)
 	}
